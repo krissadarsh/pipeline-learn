@@ -2,8 +2,8 @@ name : pipeline
 
 on : [push]
 
- jobs: 
-  job1:
+jobs: 
+   job1:
     name: Test
   
     runs-on: ubuntu-latest
@@ -26,7 +26,7 @@ on : [push]
        - name: checkout repo content
          uses: actions/checkout@v2
        - name: Step 1 - Create a temporary artifact downloads folder
-        run: mkdir downloads
+         run: mkdir downloads
         
        - name: step 2 - Add artifacts to publish to the temp folder
          run: |
