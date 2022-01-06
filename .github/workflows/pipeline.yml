@@ -1,41 +1,20 @@
-name : pipeline
+name : python pipeline
 
-on : [push]
+on: push
 
-jobs: 
-   job1:
-    name: Test
+jobs:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout repo content
-        uses: actions/checkout@v2
-      - name: setup python
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v2
+      - run: python hello.py
+  build:
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - used: actions/upload-artifact@v2
         with:
-         python-version: 3.8 
-      - name: execute py script
-        run: | 
-          python hello.py
-   job2: 
-    name: build
-    needs: [Test]
-    runs-on: ubuntu-latest
-    steps:
-       - name: checkout repo content
-         uses: actions/checkout@v2
-       - name: Step 1 - Create a temporary artifact downloads folder
-         run: mkdir downloads
-        
-       - name: step 2 - Add artifacts to publish to the temp folder
-         run: |
-           cd downloads
-           echo 'alpha'    > alpha.html
-           echo 'bravo'    > bravo.html
-           echo 'charlie'  > charlie.html
-           cd ..
-    
-       - name: Step 3 - Use the Upload Artifact GitHub Action
-         uses: actions/upload-artifact@v2
-         with: 
-           name: assets-for-download
-           path: downloads
+          name: hello
+          path: .
+
